@@ -159,6 +159,14 @@ def distance(X, C):
         i-th point of the first set an the j-th point of the second set
     """
 
+
+    dist = np.array
+    for i in X:
+        for j in C:
+            ## x1, y1 = x
+            ## x2, y2 = y
+            ## return math.sqrt((x1-x2)**2 + (y1-y2)**2)
+
     #########################################################
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
