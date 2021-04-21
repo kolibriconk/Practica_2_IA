@@ -1,5 +1,5 @@
-__authors__ = ['XXXXXXXXX','YYYYYYYY']
-__group__ = 'GrupZZ'
+authors = ['1571610', '1552750', '1565479']
+group = 'DM.18'
 
 import numpy as np
 import utils
@@ -23,11 +23,6 @@ class KMeans:
     # check elbow method
     #############################################################
 
-
-
-
-
-
     def _init_X(self, X):
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
             Args:
@@ -40,8 +35,6 @@ class KMeans:
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
         self.X = np.random.rand(100, 5)
-
-
 
     def _init_options(self, options=None):
         """
