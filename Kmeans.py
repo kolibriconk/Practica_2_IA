@@ -1,5 +1,5 @@
-authors = ['1571610', '1552750', '1565479']
-group = 'DM.18'
+__authors__ = ['1571610', '1552750', '1565479']
+__group__ = 'DM.18'
 
 import numpy as np
 import utils
@@ -27,14 +27,13 @@ class KMeans:
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
             Args:
                 X (list or np.array): list(matrix) of all pixel values
-                    if matrix has more than 2 dimensions, the dimensionality of the smaple space is the length of
-                    the last dimension
+                if matrix has more than 2 dimensions, the dimensionality of the sample space is the length of
+                the last dimension
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        self.X = np.random.rand(100, 5)
+        # Check that the values are float, if not convert it
+        arr = np.array(X)
+        if arr.dtype != "float64":
+            arr = np.array(arr, dtype=np.float64)
 
     def _init_options(self, options=None):
         """
@@ -121,6 +120,16 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
+        # file = open("C:\Users\usuari\Documents\SEGON_CURS\IA\Practica_2_IA\images","rt")
+        # for punt in file:
+        #     #trobar centroide mes proper a cada punt
+        #     self.get_centroids()
+        #     punt = punt + 1
+        #     if self.converges():
+        #         break
+        #     else:
+        #         continue
+
         pass
 
     def whitinClassDistance(self):
