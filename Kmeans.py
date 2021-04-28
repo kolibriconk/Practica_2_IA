@@ -35,9 +35,17 @@ class KMeans:
         arr = np.array(X)
         if arr.dtype != "float64":
             arr = np.array(arr, dtype=np.float64)
-        
-        
 
+        if len(arr.shape) == 3:
+            n = arr.shape[0]*arr.shape[1]
+            d = arr.shape[2]
+        else:
+            n = arr.shape[0]
+            d = arr.shape[1]
+
+        arr = arr.reshape(n, d)
+
+        self.X = arr
 
     def _init_options(self, options=None):
         """
