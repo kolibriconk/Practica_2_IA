@@ -1,8 +1,5 @@
-<<<<<<< HEAD
+
 __authors__ = ['1571610', '1552750', '1565479']
-=======
-__authors__ = ['1571610', '1562750', '1565479']
->>>>>>> daa2f4a6e5c83f197bd4f8c2aa74d4a9f81fc1d0
 __group__ = 'DM.18'
 
 import numpy as np
@@ -32,20 +29,16 @@ class KMeans:
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
             Args:
                 X (list or np.array): list(matrix) of all pixel values
-<<<<<<< HEAD
+
                 if matrix has more than 2 dimensions, the dimensionality of the sample space is the length of
                 the last dimension
-=======
                     if matrix has more than 2 dimensions, the dimensionality of the sample space is the length of
-                    the last dimension
->>>>>>> daa2f4a6e5c83f197bd4f8c2aa74d4a9f81fc1d0
-        """
+                    the last dimension        """
         # Check that the values are float, if not convert it
         arr = np.array(X)
         if arr.dtype != "float64":
             arr = np.array(arr, dtype=np.float64)
-<<<<<<< HEAD
-=======
+
 
         if len(arr.shape) == 3:
             n = arr.shape[0]*arr.shape[1]
@@ -57,7 +50,6 @@ class KMeans:
         arr = arr.reshape(n, d)
 
         self.X = arr
->>>>>>> daa2f4a6e5c83f197bd4f8c2aa74d4a9f81fc1d0
 
     def _init_options(self, options=None):
         """
@@ -130,6 +122,12 @@ class KMeans:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
+        self.centroids = []
+        self.old_centroids = self.centroids
+        for centre in self.K:
+            self.get_labels()
+            self.centroids = self.labels[centre]
+            self.old_centroids = self.centroids
         pass
 
     def converges(self):
@@ -149,7 +147,7 @@ class KMeans:
         #######################################################
         # file = open("C:\Users\usuari\Documents\SEGON_CURS\IA\Practica_2_IA\images","rt")
         # for punt in file:
-        #     #trobar centroide mes proper a cada punt
+        #     self.get_labels() #trobar centroide mes proper a cada punt
         #     self.get_centroids()
         #     punt = punt + 1
         #     if self.converges():
