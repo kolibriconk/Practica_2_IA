@@ -65,32 +65,28 @@ class KMeans:
         if not 'fitting' in options:
             options['fitting'] = 'WCD'  #within class distance.
 
-        # If your methods need any other prameter you can add it to the options dictionary
+        # If your methods need any other parameter you can add it to the options dictionary
         self.options = options
-
-        #############################################################
-        ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
-        #############################################################
-
-
-
 
     def _init_centroids(self):
         """
         Initialization of centroids
         """
-
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         if self.options['km_init'].lower() == 'first':
-            self.centroids = np.random.rand(self.K, self.X.shape[1])
-            self.old_centroids = np.random.rand(self.K, self.X.shape[1])
+            selected_pixels = {}
+            self.centroids = []
+            self.old_centroids = []
+            for i in range(self.K):
+                for pixel in self.X:
+                    aux = tuple(pixel)
+                    if aux not in selected_pixels:
+                        self.centroids.append(pixel)
+                        self.old_centroids.append(pixel)
+                        selected_pixels[aux] = 1  # Marking the pixel as used so we don't repeat it
+                        break
         else:
             self.centroids = np.random.rand(self.K, self.X.shape[1])
-            self.old_centroids =np.random.rand(self.K, self.X.shape[1])
-
+            self.old_centroids = np.random.rand(self.K, self.X.shape[1])
 
     def get_labels(self):
         """        Calculates the closest centroid of all points in X
@@ -116,11 +112,7 @@ class KMeans:
         """
         Checks if there is a difference between current and old centroids
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        return True
+        return (self.centroids == self.old_centroids).any()
 
     def fit(self):
         """
@@ -171,6 +163,7 @@ def distance(X, C):
     dist = np.array
     for i in X:
         for j in C:
+            break
             ## x1, y1 = x
             ## x2, y2 = y
             ## return math.sqrt((x1-x2)**2 + (y1-y2)**2)
