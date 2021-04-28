@@ -19,10 +19,6 @@ class KMeans:
         self._init_X(X)
         self._init_options(options)  # DICT options
 
-    #############################################################
-    ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
-    # check elbow method
-    #############################################################
 
     def _init_X(self, X):
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
@@ -64,9 +60,8 @@ class KMeans:
         if not 'max_iter' in options:
             options['max_iter'] = np.inf
         if not 'fitting' in options:
-            options['fitting'] = 'WCD'  #within class distance.
+            options['fitting'] = 'WCD'  # within class distance.
 
-        # If your methods need any other parameter you can add it to the options dictionary
         self.options = options
 
     def _init_centroids(self):
@@ -93,31 +88,12 @@ class KMeans:
         """        Calculates the closest centroid of all points in X
         and assigns each point to the closest centroid
         """
-
-        lab = distance(self.X, self.centroids)
-
-        for i in len(lab):
-            ii = 0
-            for y in range(self.K):
-                if ii == 0:
-                    ii = lab[i][y]
-                    cluster = 0
-                else:
-                    if ii >= lab[i][y]:
-                        ii = lab[i][y]
-                        cluster = y
-
-            np.append(self.labels, cluster)
-
+        self.labels = distance(self.X, self.centroids).argmin(axis=1)
 
     def get_centroids(self):
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         pass
 
     def converges(self):
@@ -131,31 +107,18 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         pass
 
     def whitinClassDistance(self):
         """
          returns the whithin class distance of the current clustering
         """
-
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         return np.random.rand()
 
     def find_bestK(self, max_K):
         """
          sets the best k anlysing the results up to 'max_K' clusters
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
         pass
 
 
@@ -186,11 +149,4 @@ def get_colors(centroids):
     Returns:
         lables: list of K labels corresponding to one of the 11 basic colors
     """
-
-
-
-    #########################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #########################################################
     return list(utils.colors)
