@@ -3,6 +3,7 @@ __group__ = 'DM.18'
 
 import numpy as np
 import utils
+import math
 
 class KMeans:
 
@@ -88,6 +89,9 @@ class KMeans:
         """        Calculates the closest centroid of all points in X
         and assigns each point to the closest centroid
         """
+
+
+
         #######################################################
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
@@ -159,19 +163,23 @@ def distance(X, C):
         i-th point of the first set an the j-th point of the second set
     """
 
-
     dist = np.array
-    for i in X:
-        for j in C:
-            ## x1, y1 = x
-            ## x2, y2 = y
-            ## return math.sqrt((x1-x2)**2 + (y1-y2)**2)
+
+    for j in C:
+        t = 0
+        x1, y1 = j[0]
+        dista = []
+        for i in X:
+            x2, y2 = i[0]
+            dista[t] = math.sqrt((x1-x2)**2 + (y1-y2)**2)
+            t += 1
+        np.append(dist, dista, axis=0)
 
     #########################################################
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
     ##  AND CHANGE FOR YOUR OWN CODE
     #########################################################
-    return np.random.rand(X.shape[0], C.shape[0])
+    return dist
 
 
 def get_colors(centroids):
@@ -183,6 +191,8 @@ def get_colors(centroids):
     Returns:
         lables: list of K labels corresponding to one of the 11 basic colors
     """
+
+
 
     #########################################################
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
