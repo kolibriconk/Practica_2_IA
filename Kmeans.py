@@ -1,4 +1,4 @@
-__authors__ = ['1571610', '1552750', '1565479']
+__authors__ = ['1571610', '1562750', '1565479']
 __group__ = 'DM.18'
 
 import numpy as np
@@ -166,6 +166,14 @@ def distance(X, C):
         dist: PxK numpy array position ij is the distance between the
         i-th point of the first set an the j-th point of the second set
     """
+
+
+    dist = np.array
+    for i in X:
+        for j in C:
+            ## x1, y1 = x
+            ## x2, y2 = y
+            ## return math.sqrt((x1-x2)**2 + (y1-y2)**2)
 
     #########################################################
     ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
