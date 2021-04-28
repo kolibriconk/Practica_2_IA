@@ -98,13 +98,21 @@ class KMeans:
         and assigns each point to the closest centroid
         """
 
+        lab = distance(self.X, self.centroids)
 
+        for i in len(lab):
+            ii = 0
+            for y in range(self.K):
+                if ii == 0:
+                    ii = lab[i][y]
+                    cluster = 0
+                else:
+                    if ii >= lab[i][y]:
+                        ii = lab[i][y]
+                        cluster = y
 
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        self.labels = np.random.randint(self.K, size=self.X.shape[0])
+            np.append(self.labels, cluster)
+
 
     def get_centroids(self):
         """
@@ -183,10 +191,6 @@ def distance(X, C):
             t += 1
         np.append(dist, dista, axis=0)
 
-    #########################################################
-    ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-    ##  AND CHANGE FOR YOUR OWN CODE
-    #########################################################
     return dist
 
 
