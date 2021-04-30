@@ -12,13 +12,12 @@ class KMeans:
          Constructor of KMeans class
              Args:
                  K (int): Number of cluster
-                 options (dict): dictºionary with options
+                 options (dict): dictionary with options
             """
         self.num_iter = 0
         self.K = K
         self._init_X(X)
         self._init_options(options)  # DICT options
-
 
     def _init_X(self, X):
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
@@ -94,11 +93,10 @@ class KMeans:
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
-        self.old_centroids = self.centroids
+        self.old_centroids = np.copy(self.centroids)
         x_cor, y_cor = [p[0] for p in self.X]
         self.centroids = (sum(x_cor)/(len(self.X))), (sum(y_cor)/(len(self.X)))
         self.K = len(self.centroids)
-        pass
 
     def converges(self):
         """
@@ -111,33 +109,55 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        # file = open("C:\Users\usuari\Documents\SEGON_CURS\IA\Practica_2_IA\images","rt")
-        # for punt in file:
-        #     #trobar centroide mes proper a cada punt
-        #     self.get_centroids()
-        #     punt = punt + 1
-        #     if self.converges():
-        #         break
-        #     else:
-        #         continue
+        self._init_centroids()
+        self.get_labels()
+        self.get_centroids()
 
-        pass
+        for i in range(self.options['max_iter']):
+            self.get_labels()
+            self.get_centroids()
+            self.num_iter = self.num_iter + 1
+            if self.converges():
+                break
+
 
     def whitinClassDistance(self):
         """
          returns the whithin class distance of the current clustering
         """
-        return np.random.rand()
+        WCD = 0
+        for c in range(self.centroids.shape[0]):
+            if (self.labels == centroid).any():
+                WCD += np.linalg.norm(self.X[self.labels == centroid] - self.centroids[c])**2
+
+        self.WCD = WCD/self.X.shape[0]
+
+        return self.WCD
+
 
     def find_bestK(self, max_K):
         """
          sets the best k anlysing the results up to 'max_K' clusters
         """
-        pass
+        found = False
+        self.K = 2
+        self.fit()
+        dist = self.whitinClassDistance()
+        for k in range(3, max_K + 1):
+            self.K = k
+            dist_prev = dist
+            self.fit()
+            dist = self.whitinClassDistance()
+
+            dec = dist / dist_prev
+            threshold = 0.2
+            if (1 - dec) <= threshold:
+                self.K = k - 1
+                found = True
+                break
+
+        if not found:
+            self.K = max_K
 
 
 def distance(X, C):
@@ -160,11 +180,16 @@ def distance(X, C):
 
 def get_colors(centroids):
     """
-    for each row of the numpy matrix 'centroids' returns the color laber folllowing the 11 basic colors as a LIST
+    for each row of the numpy matrix 'centroids' returns the color label following the 11 basic colors as a LIST
     Args:
-        centroids (numpy array): KxD 1st set of data points (usually centroind points)
+        centroids (numpy array): KxD 1st set of data points (usually centroid points)
 
     Returns:
-        lables: list of K labels corresponding to one of the 11 basic colors
+        labels: list of K labels corresponding to one of the 11 basic colors
     """
-    return list(utils.colors)
+    color_probs = utils.get_color_prob(centroids)
+    labels = []
+    for i in range(centroids.shape[0]):
+        color = utils.colors[color_probs[i].argmax()]
+        labels.append(color)
+    return labels
