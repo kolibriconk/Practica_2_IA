@@ -70,18 +70,20 @@ class KMeans:
         if self.options['km_init'].lower() == 'first':
             selected_pixels = {}
             self.centroids = []
-            self.old_centroids = []
             for i in range(self.K):
                 for pixel in self.X:
                     aux = tuple(pixel)
                     if aux not in selected_pixels:
                         self.centroids.append(pixel)
-                        self.old_centroids.append(pixel)
                         selected_pixels[aux] = 1  # Marking the pixel as used so we don't repeat it
                         break
+            self.centroids = np.copy(self.centroids)
+            self.old_centroids = np.copy(self.centroids)
         else:
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
+
+
 
     def get_labels(self):
         """        Calculates the closest centroid of all points in X
@@ -94,9 +96,10 @@ class KMeans:
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
         self.old_centroids = np.copy(self.centroids)
-        x_cor, y_cor = [p[0] for p in self.X]
-        self.centroids = (sum(x_cor)/(len(self.X))), (sum(y_cor)/(len(self.X)))
-        self.K = len(self.centroids)
+        iters = range(self.centroids.shape[0])
+        for i in iters:
+            if (self.labels == i).any():
+                self.centroids[i] = self.X[(self.labels == i)].reshape(-1, self.X.shape[1]).mean(axis=0)
 
     def converges(self):
         """
@@ -133,7 +136,6 @@ class KMeans:
         self.WCD = WCD/self.X.shape[0]
 
         return self.WCD
-
 
     def find_bestK(self, max_K):
         """
