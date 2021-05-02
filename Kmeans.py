@@ -96,12 +96,12 @@ class KMeans:
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
         """
-
-        x_cor = [p[0] for p in self.X]
-        y_cor = [p[1] for p in self.X]
-        _len = len(self.X)
-        self.centroids = (sum(x_cor)/_len), (sum(y_cor)/_len)
-        self.old_centroids = self.centroids
+        for i in self.labels:
+            x_cor = [p[i] for p in self.labels]
+            y_cor = [p[i+1] for p in self.labels]
+            _len = len(self.centroids)
+            self.centroids = (sum(x_cor)/_len), (sum(y_cor)/_len)
+            self.old_centroids = self.centroids
 
 
     def converges(self):
