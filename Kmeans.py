@@ -18,6 +18,7 @@ class KMeans:
         self.K = K
         self._init_X(X)
         self._init_options(options)  # DICT options
+        self._init_centroids()
 
     def _init_X(self, X):
         """Initialization of all pixels, sets X as an array of data in vector form (PxD)
@@ -83,8 +84,6 @@ class KMeans:
             self.centroids = np.random.rand(self.K, self.X.shape[1])
             self.old_centroids = np.random.rand(self.K, self.X.shape[1])
 
-
-
     def get_labels(self):
         """        Calculates the closest centroid of all points in X
         and assigns each point to the closest centroid
@@ -93,7 +92,7 @@ class KMeans:
 
     def get_centroids(self):
         """
-        Calculates coordinates of centroids based on the coordinates of all the points assigned to the centroid
+        Calculates coordinates of centroids based on the coordinates of all the points assigned to the
         """
         self.old_centroids = np.copy(self.centroids)
         iters = range(self.centroids.shape[0])
@@ -105,62 +104,50 @@ class KMeans:
         """
         Checks if there is a difference between current and old centroids
         """
-        return (self.centroids == self.old_centroids).any()
+        return np.allclose(self.old_centroids, self.centroids, atol=self.options['tolerance'])
 
     def fit(self):
         """
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-        self._init_centroids()
-        self.get_labels()
-        self.get_centroids()
-
-        for i in range(self.options['max_iter']):
+        while self.num_iter < self.options['max_iter']:
             self.get_labels()
             self.get_centroids()
-            self.num_iter = self.num_iter + 1
+            self.num_iter += 1
             if self.converges():
                 break
-
 
     def whitinClassDistance(self):
         """
          returns the whithin class distance of the current clustering
         """
         WCD = 0
-        for c in range(self.centroids.shape[0]):
-            if (self.labels == centroid).any():
-                WCD += np.linalg.norm(self.X[self.labels == centroid] - self.centroids[c])**2
+        for i, pixel in enumerate(self.X):
+            aux = pixel - self.centroids[self.labels[i]]
+            WCD += np.matmul(aux, aux.transpose())
 
-        self.WCD = WCD/self.X.shape[0]
-
-        return self.WCD
+        return WCD/self.X.shape[0]
 
     def find_bestK(self, max_K):
         """
          sets the best k anlysing the results up to 'max_K' clusters
         """
-        found = False
-        self.K = 2
-        self.fit()
-        dist = self.whitinClassDistance()
-        for k in range(3, max_K + 1):
+        tolerance = 0.2
+        last_dist = -1
+        for k in range(2, max_K + 1):
             self.K = k
-            dist_prev = dist
+            self._init_centroids()
+            self.num_iter = 0
             self.fit()
-            dist = self.whitinClassDistance()
+            res = self.whitinClassDistance()
+            if last_dist != -1:
+                aux = res / last_dist
+                if (1 - aux) < tolerance:
+                    self.K = k - 1
+                    break
 
-            dec = dist / dist_prev
-            threshold = 0.2
-            if (1 - dec) <= threshold:
-                self.K = k - 1
-                found = True
-                break
-
-        if not found:
-            self.K = max_K
-
+            last_dist = res
 
 def distance(X, C):
     """
