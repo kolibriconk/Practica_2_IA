@@ -7,26 +7,28 @@ import operator
 from scipy.spatial.distance import cdist
 
 class KNN:
+    PIXELS_PER_DIMENSION = 4800 * 3
+
     def __init__(self, train_data, labels):
 
         self._init_train(train_data)
         self.labels = np.array(labels)
-        #############################################################
-        ##  THIS FUNCTION CAN BE MODIFIED FROM THIS POINT, if needed
-        #############################################################
 
-
-    def _init_train(self,train_data):
+    def _init_train(self, train_data):
         """
         initializes the train data
         :param train_data: PxMxNx3 matrix corresponding to P color images
         :return: assigns the train set to the matrix self.train_data shaped as PxD (P points in a D dimensional space)
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        self.train_data = np.random.randint(8,size=[10,14400])
+        arr = np.array(train_data)
+        if arr.dtype != "float64":
+            arr = np.array(arr, dtype=np.float64)
+
+        # 4800 = numero de pixels de les imatges, 3 = espai dimensional de colors
+
+        arr = np.reshape(arr, (arr.shape[0], self.PIXELS_PER_DIMENSION))
+
+        self.train_data = arr
 
 
     def get_k_neighbours(self, test_data, k):
@@ -41,7 +43,7 @@ class KNN:
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
         #######################################################
-        self.neighbors = np.random.randint(k, size=[test_data.shape[0],k])
+        self.neighbors = np.random.randint(k, size=[test_data.shape[0] ,k])
 
 
     def get_class(self):
