@@ -47,8 +47,7 @@ class KNN:
 
         distan = cdist(self.train_data, arrneig, metric=euclidean)
 
-        for i in k:
-            i
+        
 
 
 
