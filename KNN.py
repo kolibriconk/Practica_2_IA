@@ -45,9 +45,12 @@ class KNN:
 
         arrneig = np.reshape(arrneig, (arrneig.shape[0], self.PIXELS_PER_DIMENSION))
 
-        distan = cdist(self.train_data, arrneig, metric=euclidean)
+        distan = cdist(self.train_data, arrneig, 'euclidean')
 
-        
+        arrneig.sort(distan)
+
+        self.neighbors = arrneig.reshape(k)
+        return self.neighbors
 
     def get_class(self):
         """
