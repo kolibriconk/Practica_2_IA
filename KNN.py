@@ -49,10 +49,6 @@ class KNN:
 
         
 
-
-
-
-
     def get_class(self):
         """
         Get the class by maximum voting
@@ -61,6 +57,7 @@ class KNN:
                             (i.e. the class at which that row belongs)
                 2nd array For each of the rows in self.neighbors gets the % of votes for the winning class
         """
+<<<<<<< HEAD
         #######################################################
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
         ##  AND CHANGE FOR YOUR OWN CODE
@@ -71,6 +68,16 @@ class KNN:
         perc = np.array(counts/len(self.neighbors))
         return values, perc
 
+=======
+        mtx = np.matrix(self.neighbors)
+        values, counts = np.unique(mtx, return_counts=True)
+        #values[counts == np.max(counts),]
+        ind = np.argmax(counts)
+        #a = np.bincount(self.neighbors).argmax() #returns the most frequent value in the array
+        percent = np.array((counts / len(self.neighbors))*100)
+        return values[ind], percent
+        #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+>>>>>>> 673b38dc8bfb0f90cb9412dfa181f798577c4a2b
 
 
     def predict(self, test_data, k):
