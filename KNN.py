@@ -22,10 +22,9 @@ class KNN:
         """
         arr = np.array(train_data)
         if arr.dtype != "float64":
-            arr = np.array(arr, dtype=np.float64)
+            arr = np.asarray(arr, dtype=np.float64)
 
         # 4800 = numero de pixels de les imatges, 3 = espai dimensional de colors
-
         arr = np.reshape(arr, (arr.shape[0], self.PIXELS_PER_DIMENSION))
 
         self.train_data = arr
@@ -39,11 +38,16 @@ class KNN:
         :return: the matrix self.neighbors is created (NxK)
                  the ij-th entry is the j-th nearest train point to the i-th test point
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        self.neighbors = np.random.randint(k, size=[test_data.shape[0] ,k])
+        labels = []
+        test_data = np.asarray(test_data, dtype=np.float64)
+        self.test_data = np.reshape(test_data, (test_data.shape[0], self.PIXELS_PER_DIMENSION))
+        dist = cdist(self.test_data, self.train_data, 'euclidean')
+
+        for i in dist:
+            men = i.argsort()[:k]
+            labels.append(self.labels[men])
+
+        self.neighbors = np.array(labels)
 
 
     def get_class(self):
@@ -54,12 +58,15 @@ class KNN:
                             (i.e. the class at which that row belongs)
                 2nd array For each of the rows in self.neighbors gets the % of votes for the winning class
         """
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+        most_repeated = []
 
+        for neighbor in self.neighbors:
+            aux, i, rep = np.unique(neighbor, return_index=True, return_counts=True)
+            aux_sort = np.argsort(i)
+            i = np.argmax(rep[aux_sort])
+            most_repeated.append(aux[aux_sort][i])
+
+        return most_repeated
 
     def predict(self, test_data, k):
         """
@@ -68,6 +75,5 @@ class KNN:
         :param k:         :param k:  the number of neighbors to look at
         :return: the output form get_class (2 Nx1 vector, 1st the classm 2nd the  % of votes it got
         """
-
-
-        return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
+        self.get_k_neighbours(test_data, k)
+        return self.get_class()
