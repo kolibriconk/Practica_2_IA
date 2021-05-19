@@ -40,16 +40,32 @@ class KNN:
                  the ij-th entry is the j-th nearest train point to the i-th test point
         """
         arrneig = np.array(test_data)
+        neig = []
         if arrneig.dtype != "float64":
             arrneig = np.array(arrneig, dtype=np.float64)
-
+        #matneig = np.matrix(arrneig)
         arrneig = np.reshape(arrneig, (arrneig.shape[0], self.PIXELS_PER_DIMENSION))
 
         distan = cdist(self.train_data, arrneig, 'euclidean')
 
         arrneig.sort(distan)
 
-        self.neighbors = arrneig.reshape(k)
+        y = round(k / len(arrneig[0]))
+        if y == 0:
+            for i in k:
+                neig.append(arrneig[0][i])
+        else:
+            ka = k - (y * len(arrneig[0]))
+            for x in y:
+                if (k > (x * len(arrneig[0]))):
+                    for n in len(arrneig[0]):
+                        neig.append(arrneig[x][n])
+                else:
+                    for b in ka:
+                        neig.append(arrneig[x][b])
+
+
+        self.neighbors = neig
         return self.neighbors
 
     def get_class(self):
@@ -61,11 +77,14 @@ class KNN:
                 2nd array For each of the rows in self.neighbors gets the % of votes for the winning class
         """
         mtx = np.matrix(self.neighbors)
-        values, counts = np.unique(mtx, return_counts=True)
-        #values[counts == np.max(counts),]
-        ind = np.argmax(counts)
-        #a = np.bincount(self.neighbors).argmax() #returns the most frequent value in the array
-        percent = np.array((counts / len(self.neighbors))*100)
+        values = []
+        counts = []
+        for i in len(self.neighbors):
+            values[i], counts[i] = np.unique(mtx[i], return_counts=True)
+            #values[counts == np.max(counts),]
+            ind = np.argmax(counts[i])
+            #a = np.bincount(self.neighbors).argmax() #returns the most frequent value in the array
+            percent = np.array((counts[i] / len(self.neighbors))*100)
         return values[ind], percent
         #return np.random.randint(10, size=self.neighbors.size), np.random.random(self.neighbors.size)
 
