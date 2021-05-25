@@ -9,6 +9,7 @@ import matplotlib.pyplot as plt
 import cv2
 import os
 
+
 def train_program():
     # Train classes
     train_classes_num = round(0.20 * train_imgs.shape[0])  # Limit to 20% of images
