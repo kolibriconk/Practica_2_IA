@@ -138,7 +138,8 @@ class KMeans:
         """
          sets the best k anlysing the results up to 'max_K' clusters
         """
-        tolerance = 0.2
+
+        tolerance = 0.1
         last_dist = -1
         for k in range(2, max_K + 1):
             self.K = k
