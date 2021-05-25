@@ -82,9 +82,14 @@ class KMeans:
                         break
             self.centroids = np.copy(self.centroids)
             self.old_centroids = np.copy(self.centroids)
-        else:
+
+        elif self.options['km_init'].lower() == 'random':
             self.centroids = np.random.rand(self.K, self.X.shape[1])
-            self.old_centroids = np.random.rand(self.K, self.X.shape[1])
+            self.old_centroids = np.copy(self.centroids)
+
+        elif self.options['km_init'].lower() == 'custom':
+            # TODO: Add custom init here
+            pass
 
     def get_labels(self):
         """        Calculates the closest centroid of all points in X
