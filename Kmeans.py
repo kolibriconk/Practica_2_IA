@@ -123,7 +123,6 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-<<<<<<< HEAD
 
         #######################################################
         ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
@@ -153,14 +152,12 @@ class KMeans:
         #         break
         con = False
         while not con:
-=======
-        while self.num_iter < self.options['max_iter']:
->>>>>>> 1ff463675736c0eac966ef4c1f29468a6bb0fc9f
-            self.get_labels()
-            self.get_centroids()
-            self.num_iter += 1
-            if self.converges():
-                con = True
+            while self.num_iter < self.options['max_iter']:
+                self.get_labels()
+                self.get_centroids()
+                self.num_iter += 1
+                if self.converges():
+                    con = True
 
 
     def whitinClassDistance(self):
@@ -168,15 +165,12 @@ class KMeans:
          returns the whithin class distance of the current clustering
         """
         WCD = 0
-<<<<<<< HEAD
         for c in range(self.centroids.shape[0]):
             if (self.labels == c).any():
                 WCD += np.linalg.norm(self.X[self.labels == c] - self.centroids[c])**2
-=======
         for i, pixel in enumerate(self.X):
             aux = pixel - self.centroids[self.labels[i]]
             WCD += np.matmul(aux, aux.transpose())
->>>>>>> 1ff463675736c0eac966ef4c1f29468a6bb0fc9f
 
         return WCD/self.X.shape[0]
 
