@@ -1,5 +1,5 @@
-__authors__ = 'TO_BE_FILLED'
-__group__ = 'TO_BE_FILLED'
+__authors__ = ['1571610', '1562750', '1565479']
+__group__ = 'DM.18'
 
 import numpy as np
 import Kmeans
@@ -8,17 +8,6 @@ from utils_data import read_dataset, visualize_k_means, visualize_retrieval
 import matplotlib.pyplot as plt
 import cv2
 import os
-
-
-def retrieval_by_shape(images, labels, question):
-    images_matching = []
-
-    for i, class_label in enumerate(labels):
-        if question == class_label:
-            images_matching.append(images[i])
-
-    return np.array(images_matching)
-
 
 def train_program():
     # Train classes
@@ -33,6 +22,26 @@ def train_program():
     return train_classes_num, test_classes_num, class_labels
 
 
+def retrieval_by_shape(images, labels, question):
+    images_matching = []
+
+    for i, class_label in enumerate(labels):
+        if question == class_label:
+            images_matching.append(images[i])
+
+    return np.array(images_matching)
+
+
+def Kmean_stadistics(Kmeans, Kmax):
+    Kmeans.__init__(test_imgs)
+    for k in Kmax:
+        if k > 2:
+            Kmeans.fit()
+            Kmeans.whitinClassDistance()
+    
+    visualize_k_means(Kmeans, test_imgs.shape())
+
+
 if __name__ == '__main__':
     # Load all the images and GT
     train_imgs, train_class_labels, train_color_labels, \
@@ -43,7 +52,7 @@ if __name__ == '__main__':
 
     train_class_num, test_classes_num, class_labels = train_program()
 
-    results = retrieval_by_shape(test_imgs[:test_classes_num], class_labels, "Skirt")
+    results = retrieval_by_shape(test_imgs[:test_classes_num], class_labels, "Jeans")
     visualize_retrieval(results, 10)
 
 
