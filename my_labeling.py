@@ -16,21 +16,23 @@ if __name__ == '__main__':
 
     #List with all the existant classes
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
-    e = Kmeans_stadistics(Kmeans, 20)
 
-
-
+    def test_Kmeans_stadistics(self):
+        for ix, input in enumerate(self.test_cases['input']):
+            km = Kmeans(input, self.test_cases['K'][ix])
+            e = Kmeans_stadistics(km, 20)
+            np.testing.assert_array_equal(e, self.test_cases['stadistics'][ix])
 
 ## You can start coding your functions here
 
-def Kmean_stadistics(Kmeans, Kmax):
-    Kmeans.__init__(test_imgs)
+def Kmeans_stadistics(Kmeans, Kmax):
+    Kmeans = Kmeans()
     for k in Kmax:
         if k > 2:
             Kmeans.fit()
             Kmeans.whitinClassDistance()
     
-    revisualize_k_means(Kmeans, test_imgs.shape())
+    visualize_k_means(Kmeans, test_imgs.shape())
 
 
 
