@@ -34,8 +34,6 @@ def retrieval_by_shape(images, labels, question):
     return np.array(images_matching)
 
 
-<<<<<<< HEAD
-=======
 def get_shape_accuracy(labels, gt_labels):
     total = len(labels)
     correct = np.sum(labels == gt_labels)
@@ -43,7 +41,6 @@ def get_shape_accuracy(labels, gt_labels):
     return correct/total*100
 
 
->>>>>>> 4ab4e9b171e59a2f484e5f0413f926966d4122bd
 if __name__ == '__main__':
 
     # Load all the images and GT
@@ -54,12 +51,10 @@ if __name__ == '__main__':
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
     startTime = time.time()
     train_class_num, test_classes_num, class_labels = train_program()
-<<<<<<< HEAD
-=======
+
     endTime = time.time()
     print("Training class time : {:.2f}".format(endTime - startTime))
 
->>>>>>> 4ab4e9b171e59a2f484e5f0413f926966d4122bd
     results = retrieval_by_shape(test_imgs[:test_classes_num], class_labels, "Jeans")
 
     print("Retrieval by shape completed time was: {}".format(endTime-startTime))
@@ -73,6 +68,6 @@ if __name__ == '__main__':
     options['km_init'] = 'custom'
     km = KMeans(test_imgs[:test_classes_num], 4, options)
     km._init_centroids()
-    visualize_k_means(km, 4800)
+    #visualize_k_means(km, 4800)
 
 
