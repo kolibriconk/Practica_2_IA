@@ -9,8 +9,24 @@ import KNN
 from utils_data import read_dataset, visualize_retrieval
 import cv2
 
+def Features_Knn():
+
+    #Redimension train images
+
+    train_img_new = np.ndarray([])
+    for x in train_imgs:
+        np.append(train_img_new, np.array(cv2.resize(x, (0, 0), fx=0.75, fy=0.75)))
+
+    #Redimension test images
+
+    test_img_new = np.ndarray([])
+    for y in test_imgs:
+        np.append(test_img_new, np.array(cv2.resize(y, (0, 0), fx=0.75, fy=0.75)))
+
+    return train_img_new, test_img_new
 
 def train_program():
+#def train_program(train_imgs, test_imgs):
     # Train classes
     train_classes_num = round(train_imgs.shape[0])  # Limit to 20% of images
     knn = KNN.KNN(train_imgs[:train_classes_num],
@@ -49,6 +65,8 @@ if __name__ == '__main__':
     # List with all the existant classes
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
     startTime = time.time()
+    #train_imgs_new, test_imgs_new = Features_Knn()
+    #train_class_num, test_classes_num, class_labels = train_program(train_img_new, test_imgs_new)
     train_class_num, test_classes_num, class_labels = train_program()
     endTime = time.time()
     print("Training class time : {:.2f}".format(endTime - startTime))

@@ -9,6 +9,7 @@ from scipy.spatial.distance import cdist
 
 class KNN:
     PIXELS_PER_DIMENSION = 4800 * 3  # 4800 = numero de pixels de les imatges, 3 = espai dimensional de colors
+    #PIXELS_PER_DIMENSION = 2700 * 3   #60*45=2700
     DATA_TYPE_FLOAT = "float64"
     DISTANCE_TYPE = "euclidean"
 
