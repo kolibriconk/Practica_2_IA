@@ -10,33 +10,31 @@ import KNN
 from utils_data import read_dataset, visualize_retrieval
 import cv2
 
-def Features_Knn():
+def resizeImages(train_imgs, test_imgs):
 
     #Redimension train images
 
-    train_img_new = np.ndarray([])
+    train_img_new = []
     for x in train_imgs:
-        np.append(train_img_new, np.array(cv2.resize(x, (0, 0), fx=0.75, fy=0.75)))
+        train_img_new.append(np.array(cv2.resize(x, (0, 0), fx=0.75, fy=0.75)))
 
     #Redimension test images
 
-    test_img_new = np.ndarray([])
+    test_img_new = []
     for y in test_imgs:
-        np.append(test_img_new, np.array(cv2.resize(y, (0, 0), fx=0.75, fy=0.75)))
+        test_img_new.append(np.array(cv2.resize(y, (0, 0), fx=0.75, fy=0.75)))
 
-    return train_img_new, test_img_new
+    return np.asarray(train_img_new), np.asarray(test_img_new)
 
-def train_program():
-#def train_program(train_imgs, test_imgs):
+def train_program(train_imgs, test_imgs, pixels_per_dimension):
     # Train classes
     train_classes_num = round(train_imgs.shape[0])  # Limit to 20% of images
     knn = KNN.KNN(train_imgs[:train_classes_num],
-                  train_class_labels[:train_classes_num])
+                  train_class_labels[:train_classes_num], pixels_per_dimension)
 
     # Test classes
     test_classes_num = round(test_imgs.shape[0])  # Limit to 70% of test classes
-    class_labels = knn.predict(test_imgs[:test_classes_num], 6)
-
+    class_labels = knn.predict(test_imgs[:test_classes_num], 5)
     return train_classes_num, test_classes_num, class_labels
 
 
@@ -65,27 +63,31 @@ if __name__ == '__main__':
 
     # List with all the existant classes
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
-    startTime = time.time()
-    #train_imgs_new, test_imgs_new = Features_Knn()
-    #train_class_num, test_classes_num, class_labels = train_program(train_img_new, test_imgs_new)
-    train_class_num, test_classes_num, class_labels = train_program()
 
+    startTime = time.time()
+    train_class_num, test_classes_num, class_labels = train_program(train_imgs, test_imgs, 4800*3)
     endTime = time.time()
-    print("Training class time : {:.2f}".format(endTime - startTime))
+    print("Time with images not resized {:.2f}".format(endTime - startTime))
+
+    train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
+    startTime = time.time()
+    train_class_num, test_classes_num, class_labels = train_program(train_imgs_new, test_imgs_new, 2700*3)
+    endTime = time.time()
+    print("Time with images resized {:.2f}".format(endTime - startTime))
 
     results = retrieval_by_shape(test_imgs[:test_classes_num], class_labels, "Jeans")
 
-    print("Retrieval by shape completed time was: {}".format(endTime-startTime))
+    print("Retrieval by shape completed")
 
     percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
     print("The % of the shape accuracy is {}%".format(round(percent, 2)))
 
     visualize_retrieval(results, 12)
 
-    options = {}
-    options['km_init'] = 'custom'
-    km = KMeans(test_imgs[:test_classes_num], 4, options)
-    km._init_centroids()
-    #visualize_k_means(km, 4800)
+    # options = {}
+    # options['km_init'] = 'custom'
+    # km = KMeans(test_imgs[:test_classes_num], 4, options)
+    # km._init_centroids()
+    # #visualize_k_means(km, 4800)
 
 

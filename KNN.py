@@ -7,14 +7,14 @@ import operator
 from scipy.spatial.distance import cdist
 
 
-class KNN:                             #60*60=3600
-    PIXELS_PER_DIMENSION = 4800 * 3  # 4800 = numero de pixels de les imatges, 3 = espai dimensional de colors
-    #PIXELS_PER_DIMENSION = 2700 * 3   #60*45=2700
+class KNN:
     DATA_TYPE_FLOAT = "float64"
     DISTANCE_TYPE = "euclidean"
+    PIXELS_PER_DIMENSION = 0
 
-    def __init__(self, train_data, labels):
+    def __init__(self, train_data, labels, pixels_per_dimension=4800*3):
 
+        self.PIXELS_PER_DIMENSION = pixels_per_dimension
         self._init_train(train_data)
         self.labels = np.array(labels)
         self.neighbors = []

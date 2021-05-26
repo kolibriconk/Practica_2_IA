@@ -116,15 +116,6 @@ class KMeans:
         """
         Calculates coordinates of centroids based on the coordinates of all the points assigned to the
         """
-
-#        for i in self.labels:
- #           x_cor = [p[i] for p in self.labels]
-  #          y_cor = [p[i+1] for p in self.labels]
-   #         _len = len(self.centroids)
-    #        self.centroids = (sum(x_cor)/_len), (sum(y_cor)/_len)
-     #       self.old_centroids = self.centroids
-
-
         self.old_centroids = np.copy(self.centroids)
         iters = range(self.centroids.shape[0])
         for i in iters:
@@ -143,33 +134,8 @@ class KMeans:
         Runs K-Means algorithm until it converges or until the number
         of iterations is smaller than the maximum number of iterations.
         """
-
-        #######################################################
-        ##  YOU MUST REMOVE THE REST OF THE CODE OF THIS FUNCTION
-        ##  AND CHANGE FOR YOUR OWN CODE
-        #######################################################
-        # file = open("C:\Users\usuari\Documents\SEGON_CURS\IA\Practica_2_IA\images","rt")
-        # for punt in file:
-        #     self.get_labels() #trobar centroide mes proper a cada punt
-        #     self.get_centroids()
-        #     punt = punt + 1
-        #     if self.converges():
-        #         break
-        #     else:
-        #         continue
-
-        #pass
-
         self._init_centroids()
-       # self.get_labels()
-        #self.get_centroids()
 
-        # for i in range(self.options['max_iter']):
-        #     self.get_labels()
-        #     self.get_centroids()
-        #     self.num_iter = self.num_iter + 1
-        #     if self.converges():
-        #         break
         con = False
         while not con:
             while self.num_iter < self.options['max_iter']:
