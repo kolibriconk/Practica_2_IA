@@ -58,7 +58,7 @@ class KMeans:
         if not 'verbose' in options:
             options['verbose'] = False
         if not 'tolerance' in options:
-            options['tolerance'] = 0.10
+            options['tolerance'] = 0.20
         if not 'max_iter' in options:
             options['max_iter'] = np.inf
         if not 'fitting' in options:

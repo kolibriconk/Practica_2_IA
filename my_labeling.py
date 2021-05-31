@@ -60,11 +60,13 @@ def test_find_bestK():
     tolerance = [0.2, 0.25, 0.17, 0.5, 0.1]
     for ix, input in enumerate(test_bestK['input']):
         km = KMeans(input, test_bestK['K'][ix])
+        print('Test ' + str(ix + 1))
         for i in tolerance:
             km.options['tolerance'] = i
             aux = km.find_bestK(10)
+            print('Tolerance: ' + str(int(i*100)) + '%')
+            print('K = ' + str(km.K))
             print(aux)
-            print(km.K)
 
 
 
@@ -98,6 +100,8 @@ if __name__ == '__main__':
     print("The % of the shape accuracy is {}%".format(round(percent, 2)))
 
     visualize_retrieval(results, 12)
+
+    test_find_bestK()
 
     options = {}
     options['km_init'] = 'custom'
