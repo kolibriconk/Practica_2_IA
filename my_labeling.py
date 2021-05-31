@@ -96,37 +96,37 @@ if __name__ == '__main__':
     train_imgs, train_class_labels, train_color_labels, \
     test_imgs, test_class_labels, test_color_labels = read_dataset(ROOT_FOLDER='./images/', gt_json='./test/gt.json')
 
-    # List with all the existant classes
-    classes = list(set(list(train_class_labels) + list(test_class_labels)))
-
-    # Test image time processing with original images
-    startTime = time.time()
-    train_class_num, test_classes_num, class_labels = train_program(train_imgs, test_imgs, 4800*3)
-    endTime = time.time()
-    print("Time with images not resized {:.2f}".format(endTime - startTime))
-
-    # Test image accuracy with original images
-    percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
-    print("The % of the shape accuracy is {}%".format(round(percent, 2)))
-
-    # Test image time processing with resized images
-    train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
-    startTime = time.time()
-    train_class_num, test_classes_num, class_labels = train_program(train_imgs_new, test_imgs_new, 2700*3)
-    endTime = time.time()
-    print("Time with images resized {:.2f}".format(endTime - startTime))
-
-    results = retrieval_by_shape(test_imgs[:test_classes_num], class_labels, "Jeans")
-
-    print("Retrieval by shape completed")
-
-    # Test image accuracy with original images
-    percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
-    print("The % of the shape accuracy is {}%".format(round(percent, 2)))
-
-    visualize_retrieval(results, 12)
-
-    test_find_bestK()
+    # # List with all the existant classes
+    # classes = list(set(list(train_class_labels) + list(test_class_labels)))
+    #
+    # # Test image time processing with original images
+    # startTime = time.time()
+    # train_class_num, test_classes_num, class_labels = train_program(train_imgs, test_imgs, 4800*3)
+    # endTime = time.time()
+    # print("Time with images not resized {:.2f}".format(endTime - startTime))
+    #
+    # # Test image accuracy with original images
+    # percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
+    # print("The % of the shape accuracy is {}%".format(round(percent, 2)))
+    #
+    # # Test image time processing with resized images
+    # train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
+    # startTime = time.time()
+    # train_class_num, test_classes_num, class_labels = train_program(train_imgs_new, test_imgs_new, 2700*3)
+    # endTime = time.time()
+    # print("Time with images resized {:.2f}".format(endTime - startTime))
+    #
+    # results = retrieval_by_shape(test_imgs[:test_classes_num], class_labels, "Jeans")
+    #
+    # print("Retrieval by shape completed")
+    #
+    # # Test image accuracy with original images
+    # percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
+    # print("The % of the shape accuracy is {}%".format(round(percent, 2)))
+    #
+    # visualize_retrieval(results, 12)
+    #
+    # test_find_bestK()
 
     # Test Kmeans with first initialization
     n_test_colors = round(0.2 * test_imgs.shape[0])
