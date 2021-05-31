@@ -11,7 +11,6 @@ from utils_data import read_dataset, visualize_retrieval
 import cv2
 
 def resizeImages(train_imgs, test_imgs):
-
     #Redimension train images
 
     train_img_new = []
@@ -19,7 +18,6 @@ def resizeImages(train_imgs, test_imgs):
         train_img_new.append(np.array(cv2.resize(x, (0, 0), fx=0.75, fy=0.75)))
 
     #Redimension test images
-
     test_img_new = []
     for y in test_imgs:
         test_img_new.append(np.array(cv2.resize(y, (0, 0), fx=0.75, fy=0.75)))
@@ -84,10 +82,10 @@ if __name__ == '__main__':
 
     visualize_retrieval(results, 12)
 
-    # options = {}
-    # options['km_init'] = 'custom'
-    # km = KMeans(test_imgs[:test_classes_num], 4, options)
-    # km._init_centroids()
-    # #visualize_k_means(km, 4800)
+    options = {}
+    options['km_init'] = 'custom'
+    km = KMeans(test_imgs[:test_classes_num], 4, options)
+    km._init_centroids()
+    #visualize_k_means(km, 4800)
 
 

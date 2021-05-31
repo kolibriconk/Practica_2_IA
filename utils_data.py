@@ -46,7 +46,7 @@ def load_imgs(train_img_names, test_img_names, w=60, h=80):
     train_imgs, test_imgs = [], []
 
     for tr in train_img_names:
-        train_imgs.append(read_one_img(tr+ '.jpg'))
+        train_imgs.append(read_one_img(tr + '.jpg'))
 
     for te in test_img_names:
         test_imgs.append(read_one_img(te + '.jpg'))

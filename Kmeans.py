@@ -58,7 +58,7 @@ class KMeans:
         if not 'verbose' in options:
             options['verbose'] = False
         if not 'tolerance' in options:
-            options['tolerance'] = 0
+            options['tolerance'] = 0.20
         if not 'max_iter' in options:
             options['max_iter'] = np.inf
         if not 'fitting' in options:
@@ -136,15 +136,12 @@ class KMeans:
         """
         self._init_centroids()
 
-        con = False
-        while not con:
-            while self.num_iter < self.options['max_iter']:
-                self.get_labels()
-                self.get_centroids()
-                self.num_iter += 1
-                if self.converges():
-                    con = True
-
+        while self.num_iter < self.options['max_iter']:
+            self.get_labels()
+            self.get_centroids()
+            self.num_iter += 1
+            if self.converges():
+                break
 
     def whitinClassDistance(self):
         """
@@ -165,7 +162,7 @@ class KMeans:
          sets the best k anlysing the results up to 'max_K' clusters
         """
 
-        tolerance = 0.1
+        tolerance = self.options['tolerance']
         last_dist = -1
         for k in range(2, max_K + 1):
             self.K = k
