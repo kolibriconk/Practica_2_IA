@@ -5,6 +5,7 @@ import time
 
 import numpy as np
 import Kmeans as km
+import pickle
 from Kmeans import *
 import KNN
 from utils_data import read_dataset, visualize_retrieval
@@ -51,6 +52,22 @@ def get_shape_accuracy(labels, gt_labels):
     correct = np.sum(labels == gt_labels)
 
     return correct/total*100
+
+def test_find_bestK():
+    with open('./test/test_cases_kmeans.pkl', 'rb') as f:
+        test_bestK = pickle.load(f)
+
+    tolerance = [0.2, 0.25, 0.17, 0.5, 0.1]
+    for ix, input in enumerate(test_bestK['input']):
+        km = KMeans(input, test_bestK['K'][ix])
+        for i in tolerance:
+            km.options['tolerance'] = i
+            aux = km.find_bestK(10)
+            print(aux)
+            print(km.K)
+
+
+
 
 
 if __name__ == '__main__':
