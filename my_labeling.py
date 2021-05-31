@@ -5,9 +5,11 @@ import time
 
 import numpy as np
 import Kmeans as km
+import pickle
 from Kmeans import *
 import KNN
-from utils_data import read_dataset, visualize_retrieval
+from Practica_2_IA import Kmeans
+from utils_data import read_dataset, visualize_retrieval, visualize_k_means
 import cv2
 
 def resizeImages(train_imgs, test_imgs):
@@ -46,11 +48,32 @@ def retrieval_by_shape(images, labels, question):
     return np.array(images_matching)
 
 
+def retrieval_by_color(images, labels, question):
+    images_matching = []
+
+    for i, class_label in enumerate(labels):
+        if question in class_label:
+            images_matching.append(images[i])
+
+    return np.array(images_matching)
+
+
 def get_shape_accuracy(labels, gt_labels):
     total = len(labels)
     correct = np.sum(labels == gt_labels)
 
     return correct/total*100
+
+
+def prepare_kmeans(images, options, k):
+    color_labels = []
+
+    for i, test_img in enumerate(images):
+        km = Kmeans.KMeans(test_img, options=options)
+        km.find_bestK(k)
+        color_labels.append(Kmeans.get_colors(km.centroids))
+
+    return np.array(color_labels)
 
 
 if __name__ == '__main__':
@@ -62,11 +85,17 @@ if __name__ == '__main__':
     # List with all the existant classes
     classes = list(set(list(train_class_labels) + list(test_class_labels)))
 
+    # Test image time processing with original images
     startTime = time.time()
     train_class_num, test_classes_num, class_labels = train_program(train_imgs, test_imgs, 4800*3)
     endTime = time.time()
     print("Time with images not resized {:.2f}".format(endTime - startTime))
 
+    # Test image accuracy with original images
+    percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
+    print("The % of the shape accuracy is {}%".format(round(percent, 2)))
+
+    # Test image time processing with resized images
     train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
     startTime = time.time()
     train_class_num, test_classes_num, class_labels = train_program(train_imgs_new, test_imgs_new, 2700*3)
@@ -77,15 +106,34 @@ if __name__ == '__main__':
 
     print("Retrieval by shape completed")
 
+    # Test image accuracy with original images
     percent = get_shape_accuracy(class_labels, test_class_labels[:test_classes_num])
     print("The % of the shape accuracy is {}%".format(round(percent, 2)))
 
     visualize_retrieval(results, 12)
 
-    options = {}
-    options['km_init'] = 'custom'
-    km = KMeans(test_imgs[:test_classes_num], 4, options)
-    km._init_centroids()
-    #visualize_k_means(km, 4800)
+    # Test Kmeans with first initialization
+    n_test_colors = round(0.2 * test_imgs.shape[0])
+
+    options = {'km_init': "first"}
+    startTime = time.time()
+    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
+    endTime = time.time()
+    print("Time to compute with first init {:.2f}".format(endTime - startTime))
+
+    visualize_retrieval(results, 20)
+
+    # Test Kmeans with custom initialization
+    options = {'km_init': "custom"}
+    startTime = time.time()
+    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
+    endTime = time.time()
+    print("Time to compute with custom init {:.2f}".format(endTime - startTime))
+
+    visualize_retrieval(results, 20)
+
+
 
 

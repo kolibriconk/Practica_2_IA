@@ -178,6 +178,7 @@ class KMeans:
 
             last_dist = res
 
+
 def distance(X, C):
     """
     Calculates the distance between each pixcel and each centroid
