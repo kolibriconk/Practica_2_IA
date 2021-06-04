@@ -90,6 +90,62 @@ def prepare_kmeans(images, options, k):
     return np.array(color_labels)
 
 
+def test_color_retrieval(test_imgs):
+    n_test_colors = round(0.2 * test_imgs.shape[0])
+
+    # Test Kmeans with first initiialization
+    print("Beginning test with first initialization")
+
+    options = {'km_init': "first"}
+    startTime = time.time()
+    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
+    endTime = time.time()
+    print("Time to compute with first init {:.2f}".format(endTime - startTime))
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
+    visualize_retrieval(results, 20, title="Retrieval blue clothes first init")
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Red")
+    visualize_retrieval(results, 20, title="Retrieval red clothes first init")
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Green")
+    visualize_retrieval(results, 20, title="Retrieval green clothes first init")
+
+    print("Beginning test with custom initialization")
+    # Test Kmeans with custom initialization
+    options = {'km_init': "custom"}
+    startTime = time.time()
+    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
+    endTime = time.time()
+    print("Time to compute with custom init {:.2f}".format(endTime - startTime))
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
+    visualize_retrieval(results, 20, title="Retrieval blue clothes custom init")
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Red")
+    visualize_retrieval(results, 20, title="Retrieval red clothes custom init")
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Green")
+    visualize_retrieval(results, 20, title="Retrieval green clothes custom init")
+
+    print("Beginning test with random initialization")
+    # Test Kmeans with random initialization
+    options = {'km_init': "random"}
+    startTime = time.time()
+    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
+    endTime = time.time()
+    print("Time to compute with random init {:.2f}".format(endTime - startTime))
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
+    visualize_retrieval(results, 20, title="Retrieval blue clothes random init")
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Red")
+    visualize_retrieval(results, 20, title="Retrieval red clothes random init")
+
+    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Green")
+    visualize_retrieval(results, 20, title="Retrieval green clothes random init")
+
+
 def test_shape_retrieval(train_imgs, test_imgs):
     print("Beginning tests for shape retrieval")
     # Tests image shape retrieval with neighbor 5
@@ -139,56 +195,37 @@ def test_image_time_processing(train_imgs, test_imgs, image_size=4800*3):
 
     return class_labels, test_classes_num
 
-if __name__ == '__main__':
 
+if __name__ == '__main__':
+    #
     # Load all the images and GT
     train_imgs, train_class_labels, train_color_labels, \
     test_imgs, test_class_labels, test_color_labels = read_dataset(ROOT_FOLDER='./images/', gt_json='./test/gt.json')
 
-    # # List with all the existant classes
-    classes = list(set(list(train_class_labels) + list(test_class_labels)))
+    # # # List with all the existant classes
+    # classes = list(set(list(train_class_labels) + list(test_class_labels)))
+    #
+    # # Test shape retrieval
+    # test_shape_retrieval(train_imgs, test_imgs)
+    #
+    # # Test shape accuracy
+    # test_shape_accuracy(train_imgs, test_imgs)
+    #
+    # # Test image time processing with original images
+    # print("Test image time processing with original images")
+    # _, _ = test_image_time_processing(train_imgs, test_imgs)
+    #
+    # # Test image time processing with resized images
+    # train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
+    # print("Test image time processing with resized images (2700*3)")
+    # class_labels, test_classes_num = test_image_time_processing(train_imgs_new, test_imgs_new, 2700*3)
+    #
+    # # Test shape accuracy with resized images
+    # print("Test accuracy with resized images (2700*3)")
+    # test_shape_accuracy(train_imgs_new, test_imgs_new, 2700*3)
+    #
+    # test_find_bestK()
 
-    # Test shape retrieval
-    test_shape_retrieval(train_imgs, test_imgs)
-
-    # Test shape accuracy
-    test_shape_accuracy(train_imgs, test_imgs)
-
-    # Test image time processing with original images
-    print("Test image time processing with original images")
-    _, _ = test_image_time_processing(train_imgs, test_imgs)
-
-    # Test image time processing with resized images
-    train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
-    print("Test image time processing with resized images (2700*3)")
-    class_labels, test_classes_num = test_image_time_processing(train_imgs_new, test_imgs_new, 2700*3)
-
-    # Test shape accuracy with resized images
-    print("Test accuracy with resized images (2700*3)")
-    test_shape_accuracy(train_imgs_new, test_imgs_new, 2700*3)
-
-    test_find_bestK()
-
-    # Test Kmeans with first initialization
-    n_test_colors = round(0.2 * test_imgs.shape[0])
-    
-    options = {'km_init': "first"}
-    startTime = time.time()
-    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
-    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
-    endTime = time.time()
-    print("Time to compute with first init {:.2f}".format(endTime - startTime))
-    
-    visualize_retrieval(results, 20)
-    
-    # Test Kmeans with custom initialization
-    options = {'km_init': "custom"}
-    startTime = time.time()
-    color_labels = prepare_kmeans(test_imgs[:n_test_colors], options, 6)
-    results = retrieval_by_color(test_imgs[:n_test_colors], color_labels, "Blue")
-    endTime = time.time()
-    print("Time to compute with custom init {:.2f}".format(endTime - startTime))
-    
-    visualize_retrieval(results, 20)
+    test_color_retrieval(test_imgs)
 
 
