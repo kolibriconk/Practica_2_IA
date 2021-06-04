@@ -202,29 +202,29 @@ if __name__ == '__main__':
     train_imgs, train_class_labels, train_color_labels, \
     test_imgs, test_class_labels, test_color_labels = read_dataset(ROOT_FOLDER='./images/', gt_json='./test/gt.json')
 
-    # # # List with all the existant classes
-    # classes = list(set(list(train_class_labels) + list(test_class_labels)))
-    #
-    # # Test shape retrieval
-    # test_shape_retrieval(train_imgs, test_imgs)
-    #
-    # # Test shape accuracy
-    # test_shape_accuracy(train_imgs, test_imgs)
-    #
-    # # Test image time processing with original images
-    # print("Test image time processing with original images")
-    # _, _ = test_image_time_processing(train_imgs, test_imgs)
-    #
-    # # Test image time processing with resized images
-    # train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
-    # print("Test image time processing with resized images (2700*3)")
-    # class_labels, test_classes_num = test_image_time_processing(train_imgs_new, test_imgs_new, 2700*3)
-    #
-    # # Test shape accuracy with resized images
-    # print("Test accuracy with resized images (2700*3)")
-    # test_shape_accuracy(train_imgs_new, test_imgs_new, 2700*3)
-    #
-    # test_find_bestK()
+    # # List with all the existant classes
+    classes = list(set(list(train_class_labels) + list(test_class_labels)))
+
+    # Test shape retrieval
+    test_shape_retrieval(train_imgs, test_imgs)
+
+    # Test shape accuracy
+    test_shape_accuracy(train_imgs, test_imgs)
+
+    # Test image time processing with original images
+    print("Test image time processing with original images")
+    _, _ = test_image_time_processing(train_imgs, test_imgs)
+
+    # Test image time processing with resized images
+    train_imgs_new, test_imgs_new = resizeImages(train_imgs, test_imgs)
+    print("Test image time processing with resized images (2700*3)")
+    class_labels, test_classes_num = test_image_time_processing(train_imgs_new, test_imgs_new, 2700*3)
+
+    # Test shape accuracy with resized images
+    print("Test accuracy with resized images (2700*3)")
+    test_shape_accuracy(train_imgs_new, test_imgs_new, 2700*3)
+
+    test_find_bestK()
 
     test_color_retrieval(test_imgs)
 
